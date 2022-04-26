@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace CarritoDeCompras.Models
+{
+    public class Compra
+    {
+        public int IdCompra { get; set; }
+        public int IdUsuario { get; set; }
+        public decimal Total { get; set; }
+        public string Telefono { get; set; }
+        public string Direccion { get; set; }
+        public string FechaTexto { get; set; }
+        public List<Producto> DetalleCompra { get; set; }
+
+    }
+}
