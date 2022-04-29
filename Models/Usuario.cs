@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,9 +7,15 @@ namespace CarritoDeCompras.Models
 {
     public class Usuario
     {
+        [Display(Name = "Clave")]
+        [Key]
         public int IdUsuario { get; set; }
-        public string Nombres { get; set; }
-        public string Apellidos { get; set; }
+
+        [Display(Name = "Name")]
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+
+        [EmailAddress]
         public string Correo { get; set; }
         public string Contrasena { get; set; }
         
