@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext <BaseDeDatos>(options => 
-  options.UseSqlite(@"filename=C:\Users\Lenovo\Documents\Nacho\Instituto ORT\2022-1C\PNT1\DB_CarritoDeCompras.db"));
+  options.UseSqlite(@"filename=C:\Users\nmanoche\Documents\Documentos Nelson Manoche\SQLite\DBCarritoDeCompras\DB_CarritoDeCompras.db"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

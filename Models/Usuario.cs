@@ -11,12 +11,13 @@ namespace CarritoDeCompras.Models
         [Key]
         public int IdUsuario { get; set; }
 
-        [Display(Name = "Name")]
         public string Nombre { get; set; }
         public string Apellido { get; set; }
 
         [EmailAddress]
         public string Correo { get; set; }
+
+        [Display(Name = "Contraseña")]
         public string Contrasena { get; set; }
         
     }

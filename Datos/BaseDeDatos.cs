@@ -10,5 +10,6 @@ namespace CarritoDeCompras.Datos
 
         }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Producto> Productos { get; set; }
     }
 }
