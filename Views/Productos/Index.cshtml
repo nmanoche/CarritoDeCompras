@@ -50,9 +50,9 @@
                 @*@Html.DisplayFor(modelItem => item.RutaImagen)*@
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProducto">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProducto">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProducto">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdProducto" class="btn btn-warning" style="font-weight: bold; font-size: medium; font-family: Arial, Helvetica, sans-serif;" >Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.IdProducto" class="btn btn-info" style="font-weight: bold; font-size: medium; font-family: Arial, Helvetica, sans-serif;" >Details</a> 
+                <a asp-action="Delete" asp-route-id="@item.IdProducto" class="btn btn-danger" style="font-weight: bold; font-size: medium; font-family: Arial, Helvetica, sans-serif;">Delete</a>
             </td>
         </tr>
 }
