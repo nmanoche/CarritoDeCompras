@@ -50,6 +50,11 @@ namespace CarritoDeCompras.Controllers
             return View();
         }
 
+        public bool ExisteCorreoEnBaseDeDatos (Usuario usuario)
+        {
+           return _context.Usuarios.Where(m => m.Correo == usuario.Correo).Any();
+        }
+
         // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -59,9 +64,16 @@ namespace CarritoDeCompras.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!this.ExisteCorreoEnBaseDeDatos(usuario))
+                { 
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Error = "***El correo ingresado ya existe en la base de datos***";
+                }
             }
             return View(usuario);
         }
@@ -96,23 +108,31 @@ namespace CarritoDeCompras.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                if (!this.ExisteCorreoEnBaseDeDatos(usuario))
                 {
-                    _context.Update(usuario);
-                    await _context.SaveChangesAsync();
+                    try
+                    {
+                        _context.Update(usuario);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!UsuarioExists(usuario.IdUsuario))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!UsuarioExists(usuario.IdUsuario))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ViewBag.Error = "***El correo ingresado ya existe en la base de datos***";
                 }
-                return RedirectToAction(nameof(Index));
+
             }
             return View(usuario);
         }

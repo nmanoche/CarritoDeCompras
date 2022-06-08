@@ -8,8 +8,9 @@ namespace CarritoDeCompras.Models
 {
     public class Marca
     {
-        
+        [Key]
         public int IdMarca { get; set; }
         public string Descripcion { get; set; }
+        public ICollection<TestProducto> TestProductos { get; set; }
     }
 }
