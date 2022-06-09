@@ -99,7 +99,7 @@ namespace CarritoDeCompras.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdUsuario,Nombre,Apellido,Correo,Contrasena")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("IdUsuario,Nombre,Apellido,Correo,Contrasena")] Usuario usuario, bool v)
         {
             if (id != usuario.IdUsuario)
             {
@@ -108,7 +108,7 @@ namespace CarritoDeCompras.Controllers
 
             if (ModelState.IsValid)
             {
-                if (!this.ExisteCorreoEnBaseDeDatos(usuario))
+                if (_context.Usuarios.Where(m=>m.Correo == usuario.Correo && m.IdUsuario == usuario.IdUsuario).Any())               
                 {
                     try
                     {
