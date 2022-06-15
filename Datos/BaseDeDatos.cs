@@ -12,21 +12,21 @@ namespace CarritoDeCompras.Datos
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TestProducto>()
+            modelBuilder.Entity<Producto>()
                 .HasOne<Categoria>(s => s.Categoria)
-                .WithMany(g => g.TestProductos)
+                .WithMany(g => g.Productos)
                 .HasForeignKey(s => s.IdCategoria);
 
-            modelBuilder.Entity<TestProducto>()
+            modelBuilder.Entity<Producto>()
                 .HasOne<Marca  >(s => s.Marca)
-                .WithMany(g => g.TestProductos)
+                .WithMany(g => g.Productos)
                 .HasForeignKey(s => s.IdMarca);
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Producto> Productos { get; set; }
+        //public DbSet<Producto> Productos { get; set; }
         public DbSet<CarritoDeCompras.Models.Categoria> Categorias { get; set; }
         public DbSet<CarritoDeCompras.Models.Marca> Marcas { get; set; }
-        public DbSet<CarritoDeCompras.Models.TestProducto> TestProductos { get; set; }
+        public DbSet<CarritoDeCompras.Models.Producto> Productos { get; set; }
     }
 }

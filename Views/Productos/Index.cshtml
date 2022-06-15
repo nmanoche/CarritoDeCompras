@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -17,6 +18,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMarca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categoria)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Precio)
@@ -40,6 +47,12 @@
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Marca.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria.Descripcion)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
             <td>
@@ -47,12 +60,11 @@
             </td>
             <td>
                 <img src="/Images/@Html.DisplayFor(modelItem => item.RutaImagen)" />
-                @*@Html.DisplayFor(modelItem => item.RutaImagen)*@
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProducto" class="btn btn-warning" style="font-weight: bold; font-size: medium; font-family: Arial, Helvetica, sans-serif;" >Edit</a> 
-                <a asp-action="Details" asp-route-id="@item.IdProducto" class="btn btn-info" style="font-weight: bold; font-size: medium; font-family: Arial, Helvetica, sans-serif;" >Details</a> 
-                <a asp-action="Delete" asp-route-id="@item.IdProducto" class="btn btn-danger" style="font-weight: bold; font-size: medium; font-family: Arial, Helvetica, sans-serif;">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdProducto">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdProducto">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdProducto">Delete</a>
             </td>
         </tr>
 }

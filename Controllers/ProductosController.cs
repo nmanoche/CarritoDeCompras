@@ -20,13 +20,14 @@ namespace CarritoDeCompras.Controllers
             _context = context;
         }
 
-        // GET: Productos
+        // GET: TestProductos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Productos.ToListAsync());
+            var baseDeDatos = _context.Productos.Include(t => t.Categoria).Include(t => t.Marca);
+            return View(await baseDeDatos.ToListAsync());
         }
 
-        // GET: Productos/Details/5
+        // GET: TestProductos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,6 +36,7 @@ namespace CarritoDeCompras.Controllers
             }
 
             var producto = await _context.Productos
+                .Include(t => t.Categoria)
                 .FirstOrDefaultAsync(m => m.IdProducto == id);
             if (producto == null)
             {
@@ -44,18 +46,20 @@ namespace CarritoDeCompras.Controllers
             return View(producto);
         }
 
-        // GET: Productos/Create
+        // GET: TestProductos/Create
         public IActionResult Create()
         {
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Descripcion");
+            ViewData["IdMarca"] = new SelectList(_context.Marcas, "IdMarca", "Descripcion");
             return View();
         }
 
-        // POST: Productos/Create
+        // POST: TestProductos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdProducto,Nombre,Descripcion,Precio,Stock,RutaImagen")] Producto producto)
+        public async Task<IActionResult> Create([Bind("IdProducto,Nombre,Descripcion,IdMarca,IdCategoria,Precio,Stock,RutaImagen")] Producto producto)
         {
             if (ModelState.IsValid)
             {
@@ -63,10 +67,12 @@ namespace CarritoDeCompras.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Descripcion", producto.IdCategoria);
+            ViewData["IdMarca"] = new SelectList(_context.Marcas, "IdMarca", "Descripcion", producto.IdMarca);
             return View(producto);
         }
 
-        // GET: Productos/Edit/5
+        // GET: TestProductos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,15 +85,16 @@ namespace CarritoDeCompras.Controllers
             {
                 return NotFound();
             }
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
             return View(producto);
         }
 
-        // POST: Productos/Edit/5
+        // POST: TestProductos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,Nombre,Descripcion,Precio,Stock,RutaImagen")] Producto producto)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,Nombre,Descripcion,IdMarca,IdCategoria,Precio,Stock,RutaImagen")] Producto producto)
         {
             if (id != producto.IdProducto)
             {
@@ -114,10 +121,11 @@ namespace CarritoDeCompras.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
             return View(producto);
         }
 
-        // GET: Productos/Delete/5
+        // GET: TestProductos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,17 +133,18 @@ namespace CarritoDeCompras.Controllers
                 return NotFound();
             }
 
-            var producto = await _context.Productos
+            var Producto = await _context.Productos
+                .Include(t => t.Categoria)
                 .FirstOrDefaultAsync(m => m.IdProducto == id);
-            if (producto == null)
+            if (Producto == null)
             {
                 return NotFound();
             }
 
-            return View(producto);
+            return View(Producto);
         }
 
-        // POST: Productos/Delete/5
+        // POST: TestProductos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

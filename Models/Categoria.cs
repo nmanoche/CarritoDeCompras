@@ -15,6 +15,6 @@ namespace CarritoDeCompras.Models
         [Display(Name ="Fecha de Registro")]
         public DateTime FechaRegistro { get; set; }
 
-        public ICollection<TestProducto> TestProductos { get; set; }
+        public ICollection<Producto> Productos { get; set; }
     }
 }
