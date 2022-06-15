@@ -99,40 +99,57 @@ namespace CarritoDeCompras.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdUsuario,Nombre,Apellido,Correo,Contrasena")] Usuario usuario, bool v)
+        public async Task<IActionResult> Edit(int id, Usuario usuario)
         {
-            if (id != usuario.IdUsuario)
-            {
-                return NotFound();
-            }
-
+            
             if (ModelState.IsValid)
             {
-                if (_context.Usuarios.Where(m=>m.Correo == usuario.Correo && m.IdUsuario == usuario.IdUsuario).Any())               
-                {
-                    try
+               
+                var usuarioEnDB = _context.Usuarios.FirstOrDefault(m => m.IdUsuario == usuario.IdUsuario);
+                    
+                try
+                {  
+                    if (usuarioEnDB.Correo == usuario.Correo)
                     {
-                        _context.Update(usuario);
+                        usuarioEnDB.Correo = usuario.Correo;
+                        usuarioEnDB.Nombre = usuario.Nombre;
+                        usuarioEnDB.Apellido = usuario.Apellido;
+                        usuarioEnDB.Contrasena = usuario.Contrasena;
+                        _context.Update(usuarioEnDB);
                         await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
                     }
-                    catch (DbUpdateConcurrencyException)
+                    else
                     {
-                        if (!UsuarioExists(usuario.IdUsuario))
+                        if (!ExisteCorreoEnBaseDeDatos(usuario))
                         {
-                            return NotFound();
+                            usuarioEnDB.Correo = usuario.Correo;
+                            usuarioEnDB.Nombre = usuario.Nombre;
+                            usuarioEnDB.Apellido = usuario.Apellido;
+                            usuarioEnDB.Contrasena = usuario.Contrasena;
+                            _context.Update(usuarioEnDB);
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction(nameof(Index));
                         }
                         else
                         {
-                            throw;
+                            ViewBag.Error = "***El correo ingresado ya existe en la base de datos***";
                         }
                     }
-                    return RedirectToAction(nameof(Index));
+                        
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    ViewBag.Error = "***El correo ingresado ya existe en la base de datos***";
+                    if (!UsuarioExists(usuario.IdUsuario))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
-
+                             
             }
             return View(usuario);
         }
