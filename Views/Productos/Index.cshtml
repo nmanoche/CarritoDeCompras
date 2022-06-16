@@ -62,9 +62,9 @@
                 <img src="/Images/@Html.DisplayFor(modelItem => item.RutaImagen)" />
             </td>
             <td>
-                <a asp-action="Editar" asp-route-id="@item.IdProducto">Edit</a> |
-                <a asp-action="Detalles" asp-route-id="@item.IdProducto">Details</a> |
-                <a asp-action="Eliminar" asp-route-id="@item.IdProducto">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdProducto">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdProducto">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdProducto">Eliminar</a>
             </td>
         </tr>
 }
