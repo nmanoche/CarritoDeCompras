@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CarritoDeCompras.Datos;
 using CarritoDeCompras.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarritoDeCompras.Controllers
 {
@@ -20,6 +21,7 @@ namespace CarritoDeCompras.Controllers
             _context = context;
         }
 
+        [Authorize(Policy = "AdminRequerido")]
         // GET: Marcas
         public async Task<IActionResult> Index()
         {

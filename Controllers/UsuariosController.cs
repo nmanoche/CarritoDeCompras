@@ -8,9 +8,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CarritoDeCompras.Datos;
 using CarritoDeCompras.Models;
+using Microsoft.AspNetCore.Authorization;
+using CarritoDeCompras.Areas.Identity.Data;
+using CarritoDeCompras.Areas.Identity.Pages;
 
 namespace CarritoDeCompras.Controllers
 {
+    [System.Web.Mvc.Authorize]
     public class UsuariosController : Controller
     {
         private readonly BaseDeDatos _context;
@@ -20,6 +24,7 @@ namespace CarritoDeCompras.Controllers
             _context = context;
         }
 
+        [Authorize(Policy = "AdminRequerido")]
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
@@ -64,9 +69,10 @@ namespace CarritoDeCompras.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 if (!this.ExisteCorreoEnBaseDeDatos(usuario))
-                { 
-                _context.Add(usuario);
+                {
+                    _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
                 }
