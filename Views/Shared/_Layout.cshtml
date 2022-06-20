@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using CarritoDeCompras.Areas.Identity.Data
+
+@inject SignInManager<IdentityUsuario> SignInManager
+@inject UserManager<IdentityUsuario> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,28 +17,36 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Tienda ORT</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <div class="container-fluid px">
+                <a class="navbar-brand" asp-area="" asp-controller="Tienda" asp-action="Index">Tienda ORT</a>
+                
+                @if (SignInManager.IsSignedIn(User))
+                {
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
+                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a>
+                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Marcas" asp-action="Index">Marcas</a>
+                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Marcas" asp-action="Index">Marcas</a>
                         </li>
                     </ul>
                 </div>
+                
+                <a class="btn btn-outline-dark" href="@Url.Action("Carrito", "Tienda")">
+                    <i class="fas fa-shopping-cart me-1"></i>
+                    Carrito
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                </a>
+
+                }
+
             </div>
             <div>
                 <partial name="_LoginPartial" />
@@ -42,7 +56,7 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-1">
             @RenderBody()
         </main>
     </div>

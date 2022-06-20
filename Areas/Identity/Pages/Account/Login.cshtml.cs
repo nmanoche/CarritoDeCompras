@@ -143,15 +143,18 @@ namespace CarritoDeCompras.Areas.Identity.Pages.Account
 
                     await _signInManager.SignInWithClaimsAsync(usuario, Input.RememberMe, claims);
 
+                    TempData["InicioSesion"] = true;
+
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return RedirectToAction("Index", "Tienda");
+                    //return LocalRedirect(returnUrl);
                 }
 
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
-                }
+                //if (result.Succeeded)
+                //{
+                //    _logger.LogInformation("User logged in.");
+                //    return LocalRedirect(returnUrl);
+                //}
 
                 if (result.RequiresTwoFactor)
                 {

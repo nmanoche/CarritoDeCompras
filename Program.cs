@@ -7,9 +7,6 @@ using BaseDeDatos = CarritoDeCompras.Datos.BaseDeDatos;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BaseDeDatosConnection") ?? throw new InvalidOperationException("Connection string 'BaseDeDatosConnection' not found.");
 
-//builder.Services.AddDbContext<IdentityBaseDeDatos>(options =>
-//    options.UseSqlServer(connectionString));;
-
 builder.Services.AddDbContext<IdentityBaseDeDatos>(options =>
     options.UseSqlite(connectionString));;
 
@@ -20,8 +17,8 @@ builder.Services.AddDefaultIdentity<IdentityUsuario>(options => options.SignIn.R
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext <BaseDeDatos>(options => 
-  options.UseSqlite(@"filename=C:\PNT1\CarritoDeCompras\DB_CarritoDeCompras.db"));
-//C:\PNT1\CarritoDeCompras
+  options.UseSqlite(@"filename=C:\Users\nmanoche\Documents\Documentos Nelson Manoche\Visual Studio\CarritoDeCompras_VersionPRUEBA\DB_CarritoDeCompras.db"));
+
 #region Authorizacion
 
 AddAuthorizationPolicies(builder.Services);
@@ -48,7 +45,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Tienda}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 
