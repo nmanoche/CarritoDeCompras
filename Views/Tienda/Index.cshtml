@@ -51,7 +51,14 @@
 
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="@Url.Action("Carrito", "Tienda")">Agregar al Carrito</a></div>
+                                <div class="text-center">
+                                    <button class="btn btn-outline-dark flex-shrink-0 agregarCarrito" type="button" data-idProducto="@item.IdProducto">
+                                        <i class="fas fa-cart-plus"></i>
+                                        Agregar al carrito
+                                    </button>
+
+                                    @*<a class="btn btn-outline-dark mt-auto" href="@Url.Action("Carrito", "Tienda")">Agregar al Carrito</a>*@
+                                </div>
                             }
 
                         </div>
@@ -64,3 +71,11 @@
     </div>
 </section>
 
+<script>
+
+    $(document).on("click", "button.agregarCarrito", funtion () {
+	console.log($(this).data("idProducto"))
+
+})
+
+</script>

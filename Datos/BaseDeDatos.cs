@@ -28,5 +28,6 @@ namespace CarritoDeCompras.Datos
         public DbSet<CarritoDeCompras.Models.Categoria> Categorias { get; set; }
         public DbSet<CarritoDeCompras.Models.Marca> Marcas { get; set; }
         public DbSet<CarritoDeCompras.Models.Producto> Productos { get; set; }
+        public DbSet<Carrito> Carritos { get; set; }
     }
 }

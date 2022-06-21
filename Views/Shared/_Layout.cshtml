@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using CarritoDeCompras.Areas.Identity.Data
+@using CarritoDeCompras.Controllers
 
 @inject SignInManager<IdentityUsuario> SignInManager
 @inject UserManager<IdentityUsuario> UserManager
@@ -19,31 +20,31 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid px">
                 <a class="navbar-brand" asp-area="" asp-controller="Tienda" asp-action="Index">Tienda ORT</a>
-                
+
                 @if (SignInManager.IsSignedIn(User))
                 {
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-outline-secondary" asp-area="" asp-controller="Marcas" asp-action="Index">Marcas</a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <a class="btn btn-outline-dark" href="@Url.Action("Carrito", "Tienda")">
-                    <i class="fas fa-shopping-cart me-1"></i>
-                    Carrito
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </a>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="btn btn-outline-secondary" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-outline-secondary" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-outline-secondary" asp-area="" asp-controller="Categorias" asp-action="Index">Categorias</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-outline-secondary" asp-area="" asp-controller="Marcas" asp-action="Index">Marcas</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a class="btn btn-outline-dark" href="@Url.Action("Carrito", "Tienda")">
+                        <i class="fas fa-shopping-cart me-1"></i>
+                        Carrito
+                        <span class="badge bg-dark text-white ms-1 rounded-pill cantidadcarrito">0</span>
+                    </a>
 
                 }
 
@@ -70,5 +71,29 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+
+    funtion MostrarCantidadCarrito()
+        {
+            if($("#cantidadcarrito").length > 0) {
+                jQuery.ajax({
+
+                    url: "@Url.Action("CantidadProductosEnCarritoJson", "Tienda")",
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: funtion (data)
+                    {
+                        $("#cantidadcarrito").text(data.cantidad)
+
+                    }
+
+                }
+            }
+        }
+
+    </script>
+
 </body>
 </html>

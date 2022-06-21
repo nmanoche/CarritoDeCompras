@@ -1,0 +1,57 @@
+﻿@model CarritoDeCompras.Models.Producto
+
+@{
+    ViewData["Title"] = "DetalleProducto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Microsoft.AspNetCore.Identity
+@using CarritoDeCompras.Areas.Identity.Data
+
+@inject SignInManager<IdentityUsuario> SignInManager
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div id="contenedor_producto" class="row gx-4 gx-lg-5 align-items-center">
+
+            <!-- Imagen producto-->
+            <div class="col-md-6">
+                <img class="card-img-top mb-5 mb-md-0" src="/Images/@Html.DisplayFor(model => model.RutaImagen)" />
+            </div>
+            <div class="col-md-6">
+
+                <!-- Nombre producto-->
+                <h1 class="display-5 fw-bolder">@Html.DisplayFor(model => model.Nombre)</h1>
+
+                <!-- Precio producto-->
+                <div class="fs-5 mb-5">
+                    $ @Html.DisplayFor(model => model.Precio)
+                </div>
+
+                <!-- Descripcion producto-->
+                <p class="lead">@Html.DisplayFor(model => model.Descripcion)</p>
+
+                <!-- Cantidad y boton de Agregar al Carrito producto-->
+                <div class="d-flex">
+
+                    <!-- Si estoy logeado, se van a visualizar-->
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        @*<input class="form-control text-center me-3" id="cantidadPedida" type="num" value="0" style="max-width: 3rem" />*@
+                        <button class="btn btn-outline-dark flex-shrink-0 agregarCarrito" type="button" data-idProducto=">@Html.DisplayFor(model => model.IdProducto)">
+                            <i class="fas fa-cart-plus"></i>
+                            Agregar al carrito
+                        </button>
+                        <br />
+                    }
+                    <div>
+                        <!-- Boton para volver a la tienda (Index)-->
+                        &nbsp;&nbsp;<a class="btn btn-outline-dark mt-auto" href="@Url.Action("Index", "Tienda")">Volver a la tienda</a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
