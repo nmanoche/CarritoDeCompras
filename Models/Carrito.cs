@@ -16,11 +16,6 @@ namespace CarritoDeCompras.Models
         public Usuario Usuario { get; set; }
         public int Cantidad { get; set; }
 
-        public Carrito(int IdUsuario, int IdProducto, int Cantidad)
-        {
-            this.IdUsuario = IdUsuario;
-            this.IdProducto = IdProducto; 
-            this.Cantidad = Cantidad;
-        }
+        
     }
 }

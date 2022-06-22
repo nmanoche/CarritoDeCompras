@@ -105,7 +105,7 @@ namespace CarritoDeCompras.Controllers
                 }
                 else
                 {
-                    _context.Carritos.Add(new Carrito(idClienteUsuario, idProducto, 1));
+                    _context.Carritos.Add(new Carrito());
                     _context.SaveChanges();
                 }
 

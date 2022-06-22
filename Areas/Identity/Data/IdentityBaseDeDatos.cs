@@ -22,6 +22,8 @@ public class IdentityBaseDeDatos : IdentityDbContext<IdentityUsuario>
 
         builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
     }
+
+    public DbSet<CarritoDeCompras.Areas.Identity.Data.IdentityUsuario> Users { get; set; }
 }
 
 internal class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<IdentityUsuario>

@@ -10,6 +10,7 @@
 
 @inject SignInManager<IdentityUsuario> SignInManager
 
+
 <!-- Header-->
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
@@ -52,7 +53,7 @@
                             @if (SignInManager.IsSignedIn(User))
                             {
                                 <div class="text-center">
-                                    <button class="btn btn-outline-dark flex-shrink-0 agregarCarrito" type="button" data-idProducto="@item.IdProducto">
+                                    <button class="btn btn-outline-dark flex-shrink-0 agregarcarrito" type="button" asp-route-id="@item.IdProducto" data-idProducto="@item.IdProducto">
                                         <i class="fas fa-cart-plus"></i>
                                         Agregar al carrito
                                     </button>
@@ -71,11 +72,3 @@
     </div>
 </section>
 
-<script>
-
-    $(document).on("click", "button.agregarCarrito", funtion () {
-	console.log($(this).data("idProducto"))
-
-})
-
-</script>
