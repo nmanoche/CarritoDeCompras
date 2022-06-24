@@ -87,7 +87,8 @@ namespace CarritoDeCompras.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Descripcion", producto.IdCategoria);
+            ViewData["IdMarca"] = new SelectList(_context.Marcas, "IdMarca", "Descripcion", producto.IdMarca);
             return View(producto);
         }
 
@@ -123,7 +124,8 @@ namespace CarritoDeCompras.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "IdCategoria", producto.IdCategoria);
+            //ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Descripcion", producto.IdCategoria);
+            //ViewData["IdMarca"] = new SelectList(_context.Marcas, "IdMarca", "Descripcion", producto.IdMarca);
             return View(producto);
         }
 

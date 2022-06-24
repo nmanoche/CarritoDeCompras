@@ -17,7 +17,8 @@ builder.Services.AddDefaultIdentity<IdentityUsuario>(options => options.SignIn.R
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext <BaseDeDatos>(options => 
-  options.UseSqlite(@"filename=C:\Users\nmanoche\Documents\Documentos Nelson Manoche\Visual Studio\CarritoDeCompras_VersionPRUEBA\DB_CarritoDeCompras.db"));
+  options.UseSqlite(@"filename=C:\PNT1\CarritoDeCompras\DB_CarritoDeCompras.db"));
+//C:\PNT1\CarritoDeCompras
 
 #region Authorizacion
 
