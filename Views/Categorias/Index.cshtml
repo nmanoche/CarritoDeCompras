@@ -9,6 +9,18 @@
 <p>
     <a asp-action="Create">Crear nueva categoría</a>
 </p>
+
+@{
+    if(ViewBag.Mensaje != null)
+    {
+        <div class="form-floating mb-3">
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Mensaje
+            </div>
+        </div>
+    }
+}
+
 <table class="table">
     <thead>
         <tr>

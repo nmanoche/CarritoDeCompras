@@ -25,6 +25,11 @@ namespace CarritoDeCompras.Controllers
         // GET: Marcas
         public async Task<IActionResult> Index()
         {
+            if(TempData["Mensaje"] != null)
+            {
+                ViewBag.Mensaje = TempData["Mensaje"].ToString();
+            }
+
             return View(await _context.Marcas.ToListAsync());
         }
 
@@ -127,14 +132,22 @@ namespace CarritoDeCompras.Controllers
                 return NotFound();
             }
 
-            var marca = await _context.Marcas
-                .FirstOrDefaultAsync(m => m.IdMarca == id);
-            if (marca == null)
+            var producto = await _context.Productos.FirstOrDefaultAsync(p => p.IdMarca == id);
+            
+            if(producto == null)
             {
-                return NotFound();
-            }
+                var marca = await _context.Marcas
+                    .FirstOrDefaultAsync(m => m.IdMarca == id);
+                if (marca == null)
+                {
+                    return NotFound();
+                }
 
-            return View(marca);
+                return View(marca);
+
+            }
+            TempData["Mensaje"] = "La Marca que intenta eliminar, se encuentra en uso en la lista de productos";
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Marcas/Delete/5

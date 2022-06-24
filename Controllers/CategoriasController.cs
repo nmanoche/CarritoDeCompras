@@ -25,6 +25,12 @@ namespace CarritoDeCompras.Controllers
         // GET: Categorias
         public async Task<IActionResult> Index()
         {
+
+            if (TempData["Mensaje"] != null)
+            {
+                ViewBag.Mensaje = TempData["Mensaje"].ToString();
+            }
+
             return View(await _context.Categorias.ToListAsync());
         }
 
@@ -127,14 +133,23 @@ namespace CarritoDeCompras.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias
-                .FirstOrDefaultAsync(m => m.IdCategoria == id);
-            if (categoria == null)
-            {
-                return NotFound();
-            }
+            var producto = await _context.Productos.FirstOrDefaultAsync(p => p.IdCategoria == id);
 
-            return View(categoria);
+            if (producto == null)
+            {
+                var categoria = await _context.Categorias
+                    .FirstOrDefaultAsync(m => m.IdCategoria == id);
+                if (categoria == null)
+                {
+                    return NotFound();
+                }
+
+                return View(categoria);
+
+            }
+            TempData["Mensaje"] = "La Categoria que intenta eliminar, se encuentra en uso en la lista de productos";
+            return RedirectToAction(nameof(Index));
+
         }
 
         // POST: Categorias/Delete/5
