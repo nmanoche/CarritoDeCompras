@@ -21,14 +21,14 @@ namespace CarritoDeCompras.Controllers
             return View();
         }
 
-        public bool ExisteCarrito(int idClienteUsuario, int idProducto)
+        public bool ExisteCarrito(string idClienteUsuario, int idProducto)
         {
             bool existeCarrito = _context.Carritos.Where(car => car.IdUsuario == idClienteUsuario && car.IdProducto == idProducto).Any();
 
             return existeCarrito;
         }
 
-        public int CantidadProductosEnCarrito(int idClienteUsuario)
+        public int CantidadProductosEnCarrito(string idClienteUsuario)
         {
             int cantidadProductos = 0;
 
@@ -43,7 +43,7 @@ namespace CarritoDeCompras.Controllers
         }
 
         [HttpGet]
-        public JsonResult CantidadProductosEnCarritoJson(int idClienteUsuario)
+        public JsonResult CantidadProductosEnCarritoJson(string idClienteUsuario)
         {
             int cantidadProductos = 0;
 
@@ -57,23 +57,23 @@ namespace CarritoDeCompras.Controllers
             return Json(new { cantidad = cantidadProductos });
         }
 
-        public void OperarConCarrito(int idClienteUsuario, int idProducto, bool agregarProducto)
-        {
-            if(agregarProducto)
-            {
-                if(ExisteCarrito(idClienteUsuario, idProducto))
-                {
-                    Carrito? carrito = _context.Carritos.Where(us => us.IdUsuario == idClienteUsuario).FirstOrDefault();
-                    carrito.Cantidad += 1;
-                    _context.SaveChanges();
-                }else
-                {
-                    _context.Carritos.Add(new Carrito());
-                    _context.SaveChanges();
-                }
+        //public void OperarConCarrito(int idClienteUsuario, int idProducto, bool agregarProducto)
+        //{
+        //    if(agregarProducto)
+        //    {
+        //        if(ExisteCarrito(idClienteUsuario, idProducto))
+        //        {
+        //            Carrito? carrito = _context.Carritos.Where(us => us.IdUsuario == idClienteUsuario).FirstOrDefault();
+        //            carrito.Cantidad += 1;
+        //            _context.SaveChanges();
+        //        }else
+        //        {
+        //            _context.Carritos.Add(new Carrito());
+        //            _context.SaveChanges();
+        //        }
 
-            }
-        }
+        //    }
+        //}
 
         // GET: CarritoController/Details/5
         public ActionResult Details(int id)

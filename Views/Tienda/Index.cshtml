@@ -9,6 +9,7 @@
 @using CarritoDeCompras.Areas.Identity.Data
 
 @inject SignInManager<IdentityUsuario> SignInManager
+@inject UserManager<IdentityUsuario> UserManager
 
 
 <!-- Header-->
@@ -20,6 +21,18 @@
         </div>
     </div>
 </header>
+<br />
+@{
+    if(ViewBag.AgregadoCarrito != null)
+    {
+        <div class="form-floating mb-3">
+            <div class="alert alert-success" role="alert">
+                @ViewBag.AgregadoCarrito
+            </div>
+        </div>
+    }
+}
+
 <!-- Section-->
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
@@ -53,13 +66,17 @@
                             @if (SignInManager.IsSignedIn(User))
                             {
                                 <div class="text-center">
-                                    <button class="btn btn-outline-dark flex-shrink-0 agregarcarrito" type="button" asp-route-id="@item.IdProducto" data-idProducto="@item.IdProducto">
+                                    @*<button class="btn btn-outline-dark flex-shrink-0 agregarcarrito" type="button" asp-action="AgregarAlCarrito" asp-route-idProducto="@item.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">
                                         <i class="fas fa-cart-plus"></i>
                                         Agregar al carrito
-                                    </button>
+                                    </button>*@
+
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" asp-action="AgregarAlCarrito" asp-route-idProducto="@item.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">Agregar al carrito</a></div>
+
 
                                     @*<a class="btn btn-outline-dark mt-auto" href="@Url.Action("Carrito", "Tienda")">Agregar al Carrito</a>*@
                                 </div>
+                                <br />
                             }
 
                         </div>

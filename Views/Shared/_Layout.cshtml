@@ -72,6 +72,8 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
+@section Scripts
+{
     <script>
 
     funtion MostrarCantidadCarrito()
@@ -94,6 +96,22 @@
         }
 
     </script>
+
+    <script>
+
+        $(document).ready(funtion() {
+	        $("#cantidadcarrito").click(funtion() {
+		        $.getJSON("@Url.Action("CantidadProductosEnCarritoJson", "Tienda")", funtion(data) {
+		        $("<span>").html(data.cantidad);
+		
+	        })
+		
+	        })
+	
+        })
+
+    </script>
+}
 
 </body>
 </html>
