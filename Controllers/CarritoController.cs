@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CarritoDeCompras.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarritoDeCompras.Controllers
 {
@@ -16,9 +17,27 @@ namespace CarritoDeCompras.Controllers
         }
 
         // GET: CarritoController
-        public ActionResult Index()
+        //[Authorize(Policy = "AdminRequerido")]
+        //[Authorize(Roles ="Administrador, Cliente")]
+        public async Task<IActionResult> Index(string idUser)
         {
-            return View();
+            if (TempData["AgregadoCarrito"] != null)
+            {
+                ViewBag.AgregadoCarrito = TempData["AgregadoCarrito"].ToString();
+            }
+
+            var listaProductosEnCarrito = await _context.Carritos.Where(u => u.IdUsuario == idUser).ToListAsync();
+
+            List<ProductoMostrable> listaDeProductosMostrar = new List<ProductoMostrable>();
+            foreach (var item in listaProductosEnCarrito)
+            {
+                var idProducto = item.IdProducto;
+                var producto = _context.Productos.Where(p => p.IdProducto == idProducto).FirstOrDefault();
+                var cantidad = item.Cantidad;
+                listaDeProductosMostrar.Add(new ProductoMostrable(producto, (int)cantidad));
+            }
+
+            return View(listaDeProductosMostrar);
         }
 
         public bool ExisteCarrito(string idClienteUsuario, int idProducto)
@@ -142,6 +161,51 @@ namespace CarritoDeCompras.Controllers
             {
                 return View();
             }
+        }
+
+        public async Task<IActionResult> AgregarAlCarrito(int idProducto, string idUser)
+        {
+            //var user = await _contextIdentity.Users.FirstOrDefaultAsync(id => id.Id == idUser);
+
+            var cart = await _context.Carritos.FirstOrDefaultAsync(id => id.IdUsuario == idUser && id.IdProducto == idProducto);
+
+            var producto = _context.Productos.FirstOrDefault(p => p.IdProducto == idProducto);
+            string descripcionProducto = producto.Descripcion;
+
+            if (cart == null)
+            {
+                Carrito newCart = new Carrito(idProducto, idUser, 1);
+                _context.Add(newCart);
+                await _context.SaveChangesAsync();
+                DescontarStockDeProducto(producto);
+
+                TempData["AgregadoCarrito"] = descripcionProducto + " fue agregado correctamente al carrito de compras.";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                SumarCantidadProductoCarrito(cart);
+                DescontarStockDeProducto(producto);
+                TempData["AgregadoCarrito"] = "Se agregó otra unidad de " + descripcionProducto + " al carrito de compras.";
+                return RedirectToAction(nameof(Index));
+            }
+
+
+            //return RedirectToAction(nameof(Index));
+        }
+
+        private void SumarCantidadProductoCarrito([Bind("IdCarrito,IdProducto,IdUsuario,Cantidad")] Carrito carrito)
+        {
+            carrito.Cantidad += 1;
+            _context.Update(carrito);
+            _context.SaveChanges();
+        }
+
+        private void DescontarStockDeProducto(Producto producto)
+        {
+            producto.Stock -= 1;
+            _context.Update(producto);
+            _context.SaveChanges();
         }
     }
 }

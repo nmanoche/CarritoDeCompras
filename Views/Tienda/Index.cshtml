@@ -11,7 +11,9 @@
 @inject SignInManager<IdentityUsuario> SignInManager
 @inject UserManager<IdentityUsuario> UserManager
 
-
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
 <!-- Header-->
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
@@ -88,4 +90,16 @@
         </div>
     </div>
 </section>
+
+@section Scripts
+{
+    <script>
+
+        $(document).ready(funtion() {
+	        alert("Hola tienda")
+	
+        })
+
+    </script>
+}
 
