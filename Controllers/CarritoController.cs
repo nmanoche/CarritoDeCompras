@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CarritoDeCompras.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using CarritoDeCompras.Areas.Identity.Data;
 
 namespace CarritoDeCompras.Controllers
 {
@@ -10,22 +12,41 @@ namespace CarritoDeCompras.Controllers
     {
 
         private readonly BaseDeDatos _context;
+        private readonly UserManager<IdentityUsuario> _userManager;
 
-        public CarritoController(BaseDeDatos context)
+        public CarritoController(BaseDeDatos context, UserManager<IdentityUsuario> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: CarritoController
         //[Authorize(Policy = "AdminRequerido")]
         //[Authorize(Roles ="Administrador, Cliente")]
-        public async Task<IActionResult> Index(string idUser)
+        public async Task<IActionResult> Index()
         {
-            if (TempData["AgregadoCarrito"] != null)
+            if (TempData["MsgCarritoVacio"] != null)
             {
-                ViewBag.AgregadoCarrito = TempData["AgregadoCarrito"].ToString();
+                ViewBag.VaciarCarrito = TempData["MsgCarritoVacio"].ToString();
             }
 
+            //var listaProductosEnCarrito = await _context.Carritos.Where(u => u.IdUsuario == idUser).ToListAsync();
+
+            //List<ProductoMostrable> listaDeProductosMostrar = new List<ProductoMostrable>();
+            //foreach (var item in listaProductosEnCarrito)
+            //{
+            //    var idProducto = item.IdProducto;
+            //    var producto = _context.Productos.Where(p => p.IdProducto == idProducto).FirstOrDefault();
+            //    var cantidad = item.Cantidad;
+            //    listaDeProductosMostrar.Add(new ProductoMostrable(producto, (int)cantidad));
+            //}
+
+            return View(await ObtenerCarritoActivoDeUsuarioMostrable());
+        }
+
+        public async Task<List<ProductoMostrable>> ObtenerCarritoActivoDeUsuarioMostrable()
+        {
+            var idUser = _userManager.GetUserId(User);
             var listaProductosEnCarrito = await _context.Carritos.Where(u => u.IdUsuario == idUser).ToListAsync();
 
             List<ProductoMostrable> listaDeProductosMostrar = new List<ProductoMostrable>();
@@ -37,7 +58,7 @@ namespace CarritoDeCompras.Controllers
                 listaDeProductosMostrar.Add(new ProductoMostrable(producto, (int)cantidad));
             }
 
-            return View(listaDeProductosMostrar);
+            return listaDeProductosMostrar;
         }
 
         public bool ExisteCarrito(string idClienteUsuario, int idProducto)
@@ -166,8 +187,8 @@ namespace CarritoDeCompras.Controllers
         public async Task<IActionResult> AgregarAlCarrito(int idProducto, string idUser)
         {
             //var user = await _contextIdentity.Users.FirstOrDefaultAsync(id => id.Id == idUser);
-
-            var cart = await _context.Carritos.FirstOrDefaultAsync(id => id.IdUsuario == idUser && id.IdProducto == idProducto);
+            
+            var cart = await _context.Carritos.FirstOrDefaultAsync(id => id.IdUsuario == idUser && id.IdProducto == idProducto && id.Activo != 0);
 
             var producto = _context.Productos.FirstOrDefault(p => p.IdProducto == idProducto);
             string descripcionProducto = producto.Descripcion;
@@ -180,18 +201,66 @@ namespace CarritoDeCompras.Controllers
                 DescontarStockDeProducto(producto);
 
                 TempData["AgregadoCarrito"] = descripcionProducto + " fue agregado correctamente al carrito de compras.";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Tienda");
             }
             else
             {
                 SumarCantidadProductoCarrito(cart);
                 DescontarStockDeProducto(producto);
                 TempData["AgregadoCarrito"] = "Se agregó otra unidad de " + descripcionProducto + " al carrito de compras.";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Tienda");
             }
 
+         }
 
-            //return RedirectToAction(nameof(Index));
+        public async Task<IActionResult> QuitarProductoDelCarrito(int idProducto, string idUser)
+        {
+            //Busco el carrito que corresponde al producto y usuario logeado
+            var cart = await _context.Carritos.FirstOrDefaultAsync(id => id.IdUsuario == idUser && id.IdProducto == idProducto && id.Activo != 0);
+
+            if(cart == null)
+            {
+                return NotFound();
+            }else
+            {
+                var producto = _context.Productos.FirstOrDefault(p => p.IdProducto == idProducto);
+                RetornarStockDeProducto(producto, (int)cart.Cantidad);
+                _context.Remove(cart);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+        }
+
+        public async Task<IActionResult> VaciarCarrito()
+        {
+            //Busco el usuario logeado
+            var idUser = _userManager.GetUserId(User);
+
+            //Busco el carrito que corresponde al usuario logeado y activo
+            var listaProductosEnCarrito = await _context.Carritos.Where(id => id.IdUsuario == idUser && id.Activo != 0).ToListAsync();
+
+            if (listaProductosEnCarrito == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                foreach (var item in listaProductosEnCarrito)
+                {
+                    var productoQuitar = _context.Productos.FirstOrDefault(p => p.IdProducto == item.IdProducto);
+                    var cantidadQuitar = (int) item.Cantidad;
+                    RetornarStockDeProducto(productoQuitar, cantidadQuitar);
+                    _context.Remove(item);
+                    await _context.SaveChangesAsync();
+
+                }
+
+                TempData["MsgCarritoVacio"] = "Todos los productos han sido eliminados del carrito de compra";
+
+                return RedirectToAction("Index");
+            }
+
         }
 
         private void SumarCantidadProductoCarrito([Bind("IdCarrito,IdProducto,IdUsuario,Cantidad")] Carrito carrito)
@@ -204,6 +273,13 @@ namespace CarritoDeCompras.Controllers
         private void DescontarStockDeProducto(Producto producto)
         {
             producto.Stock -= 1;
+            _context.Update(producto);
+            _context.SaveChanges();
+        }
+
+        private void RetornarStockDeProducto(Producto producto, int cantidadRetornar)
+        {
+            producto.Stock += cantidadRetornar;
             _context.Update(producto);
             _context.SaveChanges();
         }

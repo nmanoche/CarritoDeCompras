@@ -5,58 +5,72 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@using Microsoft.AspNetCore.Identity
+@using CarritoDeCompras.Areas.Identity.Data
+
+@inject UserManager<IdentityUsuario> UserManager
+
 <h1>Carrito</h1>
 
-@*@if (@Model.Subtotal == 0)
-{
-    <p>El carrito esta vacio.</p>
-}
-else
-{*@
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Descripcion
-                </th>
-                <th>
-                    Marca
-                </th>
-                <th>
-                    Cantidad
-                </th>
-                <th>
-                    Precio
-                </th>
-                <th>
-                    Total producto
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var item in Model)
-            {
+@{
+    if(ViewBag.VaciarCarrito != null)
+    {
+        <div class="form-floating mb-3">
+            <div class="alert alert-success" role="alert">
+                @ViewBag.VaciarCarrito
+            </div>
+        </div>
+    }else if (@Model.Sum(p => p.producto.Precio * p.cantidadProducto) == 0)
+    {
+        <p>No tiene productos agregados al carrito de compras. Por favor, agregue algún producto para continuar con su compra</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@item.producto.Descripcion</td>
-                    <td>@item.producto.Marca</td>
-                    <td>@item.cantidadProducto @(item.cantidadProducto > 1 ? "unidades" : "unidad")</td>
-                    <td>$ @item.producto.Precio</td>
-                    <td>$ @(item.producto.Precio * item.cantidadProducto)</td>
-                    <td>
-                        <a asp-action="QuitarItemDelCarrito" asp-route-id="@item.producto.IdProducto">Quitar del carrito</a>
-                    </td>
+                    <th>
+                        Descripcion
+                    </th>
+                    <th>
+                        Marca
+                    </th>
+                    <th>
+                        Cantidad
+                    </th>
+                    <th>
+                        Precio
+                    </th>
+                    <th>
+                        Total producto
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
 
-    <p>Subtotal: $1500 <span>+ 21% IVA</span></p>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.producto.Descripcion</td>
+                        <td>@item.producto.Marca</td>
+                        <td>@item.cantidadProducto @(item.cantidadProducto > 1 ? "unidades" : "unidad")</td>
+                        <td>$ @item.producto.Precio</td>
+                        <td>$ @(item.producto.Precio * item.cantidadProducto)</td>
+                        <td>
+                            <a asp-action="QuitarProductoDelCarrito" asp-route-idProducto="@item.producto.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">Quitar del carrito</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    <form asp-action="Create" asp-controller="Compras" method="post">
-        <a class="btn btn-danger" asp-action="VaciarCarrito">Vaciar Carrito</a>
-        @*<input type="hidden" value="@Model.CarritoId" name="carritoId"/>*@
-        <button class="btn btn-primary" type="submit">Finalizar compra</button>
-    </form>
-@*}*@
+        <p>Subtotal: $@Model.Sum(p => p.producto.Precio * p.cantidadProducto) <span>+ 21% IVA</span></p>
+
+        <form asp-action="Create" asp-controller="Compras" method="post">
+            <a class="btn btn-danger" asp-action="VaciarCarrito">Vaciar Carrito</a>
+            @*<input type="hidden" value="@Model.CarritoId" name="carritoId"/>*@
+            <button class="btn btn-primary" type="submit">Finalizar compra</button>
+        </form>
+    }
+}

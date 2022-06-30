@@ -129,6 +129,7 @@ namespace CarritoDeCompras.Controllers
         public async Task<IActionResult> AgregarAlCarrito(int idProducto, string idUser)
         {
             //var user = await _contextIdentity.Users.FirstOrDefaultAsync(id => id.Id == idUser);
+            var user = _userManager.GetUserId(User);
 
             var cart = await _context.Carritos.FirstOrDefaultAsync(id => id.IdUsuario == idUser && id.IdProducto == idProducto);
 

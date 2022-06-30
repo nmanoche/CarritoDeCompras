@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using CarritoDeCompras.Areas.Identity.Data;
+using CarritoDeCompras.Controllers;
 
 namespace CarritoDeCompras.Models
 {
@@ -18,6 +20,7 @@ namespace CarritoDeCompras.Models
         //public IdentityUsuario? Users { get; set; }
         //public Usuario? Usuario { get; set; }
         public int? Cantidad { get; set; }
+        public int? Activo { get; set; }
 
         public Carrito()
         {
@@ -30,6 +33,9 @@ namespace CarritoDeCompras.Models
             IdProducto = idProducto;
             IdUsuario = idUsuario;
             Cantidad = cantidad;
+            Activo = 1;
         }
+
+        
     }
 }

@@ -9,6 +9,7 @@
 @using CarritoDeCompras.Areas.Identity.Data
 
 @inject SignInManager<IdentityUsuario> SignInManager
+@inject UserManager<IdentityUsuario> UserManager
 
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
@@ -37,11 +38,13 @@
                     <!-- Si estoy logeado, se van a visualizar-->
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        @*<input class="form-control text-center me-3" id="cantidadPedida" type="num" value="0" style="max-width: 3rem" />*@
-                        <button class="btn btn-outline-dark flex-shrink-0 agregarCarrito" type="button" data-idProducto=">@Html.DisplayFor(model => model.IdProducto)">
-                            <i class="fas fa-cart-plus"></i>
-                            Agregar al carrito
-                        </button>
+                        <!-- Boton para agregar al carrito desde la vista de detalles-->
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" asp-controller="Carrito" asp-action="AgregarAlCarrito" asp-route-idProducto="@Model.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">
+                                Agregar al carrito
+                            </a>
+                        </div>
+
                         <br />
                     }
                     <div>

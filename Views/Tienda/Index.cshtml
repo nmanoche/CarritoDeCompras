@@ -73,7 +73,7 @@
                                         Agregar al carrito
                                     </button>*@
 
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" asp-action="AgregarAlCarrito" asp-route-idProducto="@item.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">Agregar al carrito</a></div>
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" asp-controller="Carrito" asp-action="AgregarAlCarrito" asp-route-idProducto="@item.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">Agregar al carrito</a></div>
 
 
                                     @*<a class="btn btn-outline-dark mt-auto" href="@Url.Action("Carrito", "Tienda")">Agregar al Carrito</a>*@
