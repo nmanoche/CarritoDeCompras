@@ -1,0 +1,105 @@
+﻿@model IEnumerable<CarritoDeCompras.Models.ProductoMostrable>
+
+<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+<h1>FINALIZAR COMPRA</h1>
+<br />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="mobile h5">Dirección de Facturación</div>
+            <div id="details" class="bg-white rounded pb-5">
+                <form>
+                    <div class="form-group col-lg-10">
+                        <label class="text-muted">Nombre y Apellido</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <br />
+                    <div class="form-group col-lg-10">
+                        <label class="text-muted">Email</label>
+                        <input type="email" class="form-control">
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label>Dirección</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label>Código Postal</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label>State</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mobile h5">Resumén de la Compra</div>
+            <div id="details" class="bg-white rounded pb-5">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Descripcion
+                            </th>
+                            <th>
+                                Cantidad
+                            </th>
+                            <th>
+                                Total producto
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.producto.Descripcion</td>
+                                <td>@item.cantidadProducto</td>
+                                <td>$ @(item.producto.Precio * item.cantidadProducto)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <br />
+                <br />
+                <div class="position-relative">
+                    <div class="position-absolute bottom-0 end-0">
+                        <p class="fw-bold">Subtotal: <span class="fs-4">$@Model.Sum(p => p.producto.Precio * p.cantidadProducto)</span> <span>+ 21% IVA</span></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button class="btn btn-primary" type="button">Pagar</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+

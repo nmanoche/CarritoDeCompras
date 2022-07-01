@@ -23,11 +23,12 @@ namespace CarritoDeCompras.Datos
                 .HasForeignKey(s => s.IdMarca);
         }
 
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Usuario>? Usuarios { get; set; }
         //public DbSet<Producto> Productos { get; set; }
-        public DbSet<CarritoDeCompras.Models.Categoria> Categorias { get; set; }
-        public DbSet<CarritoDeCompras.Models.Marca> Marcas { get; set; }
-        public DbSet<CarritoDeCompras.Models.Producto> Productos { get; set; }
-        public DbSet<CarritoDeCompras.Models.Carrito> Carritos { get; set; }
+        public DbSet<CarritoDeCompras.Models.Categoria>? Categorias { get; set; }
+        public DbSet<CarritoDeCompras.Models.Marca>? Marcas { get; set; }
+        public DbSet<CarritoDeCompras.Models.Producto>? Productos { get; set; }
+        public DbSet<CarritoDeCompras.Models.Carrito>? Carritos { get; set; }
+        public DbSet<DetalleCompra>? DetalleCompras { get; set; }
     }
 }

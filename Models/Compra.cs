@@ -9,12 +9,13 @@ namespace CarritoDeCompras.Models
     {
         public int IdCompra { get; set; }
         public int IdUsuario { get; set; }
-        public decimal Total { get; set; }
-        public string Contacto { get; set; }
-        public string Telefono { get; set; }
-        public string Direccion { get; set; }
-        public string FechaTexto { get; set; }
-        public List<DetalleCompra> DetalleCompra { get; set; }
+        public DateTime FechaCompra { get; set; }
+        public decimal TotalPagar { get; set; }
+        public string? Contacto { get; set; }
+        public string? Telefono { get; set; }
+        public string? Direccion { get; set; }
+        //public string FechaTexto { get; set; }
+        public List<DetalleCompra>? DetalleCompras { get; set; }
 
     }
 }

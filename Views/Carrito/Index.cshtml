@@ -10,6 +10,8 @@
 
 @inject UserManager<IdentityUsuario> UserManager
 
+<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
 <h1>Carrito</h1>
 
 @{
@@ -58,7 +60,12 @@
                         <td>$ @item.producto.Precio</td>
                         <td>$ @(item.producto.Precio * item.cantidadProducto)</td>
                         <td>
-                            <a asp-action="QuitarProductoDelCarrito" asp-route-idProducto="@item.producto.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">Quitar del carrito</a>
+                            @*<a asp-action="QuitarProductoDelCarrito" asp-route-idProducto="@item.producto.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">Quitar producto</a>*@
+
+                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                              <a asp-action="QuitarProductoDelCarrito" asp-route-idProducto="@item.producto.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)" class="text-muted"><i class="fas fa-times"></i></a>
+                            </div>
+
                         </td>
                     </tr>
                 }
@@ -67,7 +74,7 @@
 
         <p>Subtotal: $@Model.Sum(p => p.producto.Precio * p.cantidadProducto) <span>+ 21% IVA</span></p>
 
-        <form asp-action="Create" asp-controller="Compras" method="post">
+        <form asp-action="Index" asp-controller="Compra" method="post">
             <a class="btn btn-danger" asp-action="VaciarCarrito">Vaciar Carrito</a>
             @*<input type="hidden" value="@Model.CarritoId" name="carritoId"/>*@
             <button class="btn btn-primary" type="submit">Finalizar compra</button>

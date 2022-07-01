@@ -41,10 +41,10 @@ namespace CarritoDeCompras.Controllers
             //    listaDeProductosMostrar.Add(new ProductoMostrable(producto, (int)cantidad));
             //}
 
-            return View(await ObtenerCarritoActivoDeUsuarioMostrable());
+            return View(await ObtenerListaProductosdelUsuario()); 
         }
 
-        public async Task<List<ProductoMostrable>> ObtenerCarritoActivoDeUsuarioMostrable()
+        public async Task<List<ProductoMostrable>> ObtenerListaProductosdelUsuario()
         {
             var idUser = _userManager.GetUserId(User);
             var listaProductosEnCarrito = await _context.Carritos.Where(u => u.IdUsuario == idUser).ToListAsync();

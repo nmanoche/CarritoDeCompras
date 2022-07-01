@@ -20,7 +20,7 @@ namespace CarritoDeCompras.Models
         //public IdentityUsuario? Users { get; set; }
         //public Usuario? Usuario { get; set; }
         public int? Cantidad { get; set; }
-        public int? Activo { get; set; }
+        public byte Activo { get; set; }
 
         public Carrito()
         {
