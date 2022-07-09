@@ -47,7 +47,7 @@ namespace CarritoDeCompras.Controllers
         public async Task<List<ProductoMostrable>> ObtenerListaProductosdelUsuario()
         {
             var idUser = _userManager.GetUserId(User);
-            var listaProductosEnCarrito = await _context.Carritos.Where(u => u.IdUsuario == idUser).ToListAsync();
+            var listaProductosEnCarrito = await _context.Carritos.Where(u => u.IdUsuario == idUser && u.Activo != 0).ToListAsync();
 
             List<ProductoMostrable> listaDeProductosMostrar = new List<ProductoMostrable>();
             foreach (var item in listaProductosEnCarrito)

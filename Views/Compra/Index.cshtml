@@ -6,31 +6,32 @@
 <br />
 <div class="container-fluid">
     <div class="row">
+        <form asp-action="PagarCompra" method="post">
         <div class="col">
             <div class="mobile h5">Dirección de Facturación</div>
             <div id="details" class="bg-white rounded pb-5">
-                <form>
+                @*<form asp-action="PagarCompra" method="post">*@
                     <div class="form-group col-lg-10">
                         <label class="text-muted">Nombre y Apellido</label>
-                        <input type="text" class="form-control">
+                        <input name="NombreApellidoFacturar" type="text" class="form-control">
                     </div>
                     <br />
                     <div class="form-group col-lg-10">
                         <label class="text-muted">Email</label>
-                        <input type="email" class="form-control">
+                        <input name="EmailFacturar" type="email" class="form-control">
                     </div>
                     <br />
                     <div class="row">
                         <div class="col-lg-5">
                             <div class="form-group">
                                 <label>Dirección</label>
-                                <input type="text" class="form-control">
+                                <input name="DireccionFacturar" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-5">
                             <div class="form-group">
                                 <label>Código Postal</label>
-                                <input type="text" class="form-control">
+                                <input name="CodigoPostalFacturar" type="text" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -49,7 +50,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                @*</form>*@
             </div>
         </div>
         <div class="col">
@@ -93,10 +94,12 @@
             </div>
 
             <div class="d-grid gap-2 col-6 mx-auto">
-                <button class="btn btn-primary" type="button">Pagar</button>
+                @*<button class="btn btn-primary" type="button">Pagar</button>*@
+                <input type="submit" value="Pagar" class="btn btn-primary" />
             </div>
 
         </div>
+        </form>
     </div>
 
 </div>
