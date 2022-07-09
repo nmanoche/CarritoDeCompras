@@ -18,10 +18,12 @@ namespace CarritoDeCompras.Controllers
     public class UsuariosController : Controller
     {
         private readonly BaseDeDatos _context;
+        private readonly IdentityBaseDeDatos _contextIdentity;
 
-        public UsuariosController(BaseDeDatos context)
+        public UsuariosController(BaseDeDatos context, IdentityBaseDeDatos contextIdentity)
         {
             _context = context;
+            _contextIdentity = contextIdentity;
         }
 
         [Authorize(Policy = "AdminRequerido")]
@@ -31,16 +33,23 @@ namespace CarritoDeCompras.Controllers
             return View(await _context.Usuarios.ToListAsync());
         }
 
+        [Authorize(Policy = "AdminRequerido")]
+        // GET: Usuarios
+        public async Task<IActionResult> IndexIdentity()
+        {
+            return View(await _contextIdentity.Users.ToListAsync());
+        }
+
         // GET: Usuarios/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.IdUsuario == id);
+            var usuario = await _contextIdentity.Users
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (usuario == null)
             {
                 return NotFound();
@@ -55,9 +64,9 @@ namespace CarritoDeCompras.Controllers
             return View();
         }
 
-        public bool ExisteCorreoEnBaseDeDatos (Usuario usuario)
+        public bool ExisteCorreoEnBaseDeDatos (IdentityUsuario usuario)
         {
-           return _context.Usuarios.Where(m => m.Correo == usuario.Correo).Any();
+           return _contextIdentity.Users.Where(m => m.Email == usuario.Email).Any();
         }
 
         // POST: Usuarios/Create
@@ -65,16 +74,16 @@ namespace CarritoDeCompras.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdUsuario,Nombre,Apellido,Correo,Contrasena")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("IdUsuario,Nombre,Apellido,Correo,Contrasena")] IdentityUsuario usuario)
         {
             if (ModelState.IsValid)
             {
                 
                 if (!this.ExisteCorreoEnBaseDeDatos(usuario))
                 {
-                    _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                    _contextIdentity.Add(usuario);
+                await _contextIdentity.SaveChangesAsync();
+                return RedirectToAction(nameof(IndexIdentity));
                 }
                 else
                 {
@@ -85,14 +94,14 @@ namespace CarritoDeCompras.Controllers
         }
 
         // GET: Usuarios/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios.FindAsync(id);
+            var usuario = await _contextIdentity.Users.FindAsync(id);
             if (usuario == null)
             {
                 return NotFound();
@@ -105,37 +114,37 @@ namespace CarritoDeCompras.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Usuario usuario)
+        public async Task<IActionResult> Edit(string id, IdentityUsuario usuario)
         {
             
             if (ModelState.IsValid)
             {
                
-                var usuarioEnDB = _context.Usuarios.FirstOrDefault(m => m.IdUsuario == usuario.IdUsuario);
+                var usuarioEnDB = _contextIdentity.Users.FirstOrDefault(m => m.Id == usuario.Id);
                     
                 try
                 {  
-                    if (usuarioEnDB.Correo == usuario.Correo)
+                    if (usuarioEnDB.Email == usuario.Email)
                     {
-                        usuarioEnDB.Correo = usuario.Correo;
+                        //usuarioEnDB.Email = usuario.Email;
                         usuarioEnDB.Nombre = usuario.Nombre;
                         usuarioEnDB.Apellido = usuario.Apellido;
-                        usuarioEnDB.Contrasena = usuario.Contrasena;
-                        _context.Update(usuarioEnDB);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction(nameof(Index));
+                        usuarioEnDB.UserName = usuario.UserName;
+                        _contextIdentity.Update(usuarioEnDB);
+                        await _contextIdentity.SaveChangesAsync();
+                        return RedirectToAction(nameof(IndexIdentity));
                     }
                     else
                     {
                         if (!ExisteCorreoEnBaseDeDatos(usuario))
                         {
-                            usuarioEnDB.Correo = usuario.Correo;
+                            usuarioEnDB.Email = usuario.Email;
                             usuarioEnDB.Nombre = usuario.Nombre;
                             usuarioEnDB.Apellido = usuario.Apellido;
-                            usuarioEnDB.Contrasena = usuario.Contrasena;
-                            _context.Update(usuarioEnDB);
-                            await _context.SaveChangesAsync();
-                            return RedirectToAction(nameof(Index));
+                            usuarioEnDB.UserName = usuario.UserName;
+                            _contextIdentity.Update(usuarioEnDB);
+                            await _contextIdentity.SaveChangesAsync();
+                            return RedirectToAction(nameof(IndexIdentity));
                         }
                         else
                         {
@@ -146,7 +155,7 @@ namespace CarritoDeCompras.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuarioExists(usuario.IdUsuario))
+                    if (!UsuarioExists(usuario.Id))
                     {
                         return NotFound();
                     }
@@ -161,15 +170,15 @@ namespace CarritoDeCompras.Controllers
         }
 
         // GET: Usuarios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.IdUsuario == id);
+            var usuario = await _contextIdentity.Users
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (usuario == null)
             {
                 return NotFound();
@@ -181,17 +190,17 @@ namespace CarritoDeCompras.Controllers
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            _context.Usuarios.Remove(usuario);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var usuario = await _contextIdentity.Users.FindAsync(id);
+            _contextIdentity.Users.Remove(usuario);
+            await _contextIdentity.SaveChangesAsync();
+            return RedirectToAction(nameof(IndexIdentity));
         }
 
-        private bool UsuarioExists(int id)
+        private bool UsuarioExists(string id)
         {
-            return _context.Usuarios.Any(e => e.IdUsuario == id);
+            return _contextIdentity.Users.Any(e => e.Id == id);
         }
     }
 }

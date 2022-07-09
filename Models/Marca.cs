@@ -11,6 +11,6 @@ namespace CarritoDeCompras.Models
         [Key]
         public int IdMarca { get; set; }
         public string Descripcion { get; set; }
-        public ICollection<Producto> Productos { get; set; }
+        public ICollection<Producto>? Productos { get; set; }
     }
 }

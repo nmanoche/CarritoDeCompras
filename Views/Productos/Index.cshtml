@@ -5,18 +5,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
 <h1>Productos</h1>
 
-<p>
-    <a asp-action="Create">Crear nuevo producto</a>
-</p>
+<div>
+    <a asp-action="Create" class="btn btn-primary" style="float: right">Crear nuevo producto</a>
+</div>
+<br />
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
-            <th>
+            <th width="200">
                 @Html.DisplayNameFor(model => model.Descripcion)
             </th>
             <th>
@@ -40,31 +43,31 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td width="80">
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
-            <td>
+            <td width="200" height="50">
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
-            <td>
+            <td width="80">
                 @Html.DisplayFor(modelItem => item.Marca.Descripcion)
             </td>
-            <td>
+            <td width="80">
                 @Html.DisplayFor(modelItem => item.Categoria.Descripcion)
             </td>
-            <td>
+            <td width="80">
                 @Html.DisplayFor(modelItem => item.Precio)
             </td>
-            <td>
+            <td width="80">
                 @Html.DisplayFor(modelItem => item.Stock)
             </td>
-            <td>
+            <td width="200">
                 <img src="/Images/@Html.DisplayFor(modelItem => item.RutaImagen)" />
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProducto">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProducto">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProducto">Eliminar</a>
+            <td width="80">
+                <a asp-action="Edit" asp-route-id="@item.IdProducto" title="Editar producto"><i class="fa-solid fa-pen-to-square"></i></a> |
+                <a asp-action="Details" asp-route-id="@item.IdProducto" title="Ver detalle"><i class="fa-solid fa-circle-plus"></i></a> |
+                <a asp-action="Delete" asp-route-id="@item.IdProducto" title="Eliminar producto"><i class="fas fa-times"></i></a>
             </td>
         </tr>
 }

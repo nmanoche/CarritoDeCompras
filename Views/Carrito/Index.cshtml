@@ -32,7 +32,7 @@
             <thead>
                 <tr>
                     <th>
-                        Descripcion
+                        Nombre del Producto
                     </th>
                     <th>
                         Marca
@@ -54,8 +54,8 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.producto.Descripcion</td>
-                        <td>@item.producto.Marca</td>
+                        <td>@item.producto.Nombre</td>
+                        <td>@item.producto.Marca.Descripcion</td>
                         <td>@item.cantidadProducto @(item.cantidadProducto > 1 ? "unidades" : "unidad")</td>
                         <td>$ @item.producto.Precio</td>
                         <td>$ @(item.producto.Precio * item.cantidadProducto)</td>
@@ -63,7 +63,7 @@
                             @*<a asp-action="QuitarProductoDelCarrito" asp-route-idProducto="@item.producto.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">Quitar producto</a>*@
 
                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                              <a asp-action="QuitarProductoDelCarrito" asp-route-idProducto="@item.producto.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)" class="text-muted"><i class="fas fa-times"></i></a>
+                              <a asp-action="QuitarProductoDelCarrito" asp-route-idProducto="@item.producto.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)" class="text-muted" title="Eliminar"><i class="fas fa-times"></i></a>
                             </div>
 
                         </td>
@@ -75,9 +75,8 @@
         <p>Subtotal: $@Model.Sum(p => p.producto.Precio * p.cantidadProducto) <span>+ 21% IVA</span></p>
 
         <form asp-action="Index" asp-controller="Compra" method="post">
-            <a class="btn btn-danger" asp-action="VaciarCarrito">Vaciar Carrito</a>
-            @*<input type="hidden" value="@Model.CarritoId" name="carritoId"/>*@
-            <button class="btn btn-primary" type="submit">Finalizar compra</button>
+            <a class="btn btn-danger" asp-action="VaciarCarrito"><i class="fa-solid fa-trash-can"></i> Vaciar Carrito</a>
+            <button class="btn btn-success" type="submit">Finalizar compra</button>
         </form>
     }
 }

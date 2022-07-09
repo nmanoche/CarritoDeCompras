@@ -2,15 +2,14 @@
 
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
-<h1>FINALIZAR COMPRA</h1>
+<h1>Finalizar Compra</h1>
 <br />
-<div class="container-fluid">
-    <div class="row">
-        <form asp-action="PagarCompra" method="post">
-        <div class="col">
-            <div class="mobile h5">Dirección de Facturación</div>
-            <div id="details" class="bg-white rounded pb-5">
-                @*<form asp-action="PagarCompra" method="post">*@
+<form asp-action="PagarCompra" method="post">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="mobile h5">Dirección de Facturación</div>
+                <div id="details" class="bg-white rounded pb-5">
                     <div class="form-group col-lg-10">
                         <label class="text-muted">Nombre y Apellido</label>
                         <input name="NombreApellidoFacturar" type="text" class="form-control">
@@ -36,7 +35,7 @@
                         </div>
                     </div>
                     <br />
-                    <div class="row">
+                    @*<div class="row">
                         <div class="col-lg-5">
                             <div class="form-group">
                                 <label>Address</label>
@@ -49,60 +48,58 @@
                                 <input type="text" class="form-control">
                             </div>
                         </div>
-                    </div>
-                @*</form>*@
+                    </div>*@
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="mobile h5">Resumén de la Compra</div>
-            <div id="details" class="bg-white rounded pb-5">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Descripcion
-                            </th>
-                            <th>
-                                Cantidad
-                            </th>
-                            <th>
-                                Total producto
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach (var item in Model)
-                        {
+            <div class="col">
+                <div class="mobile h5">Resumen de la Compra</div>
+                <div id="details" class="bg-white rounded pb-5">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>@item.producto.Descripcion</td>
-                                <td>@item.cantidadProducto</td>
-                                <td>$ @(item.producto.Precio * item.cantidadProducto)</td>
+                                <th>
+                                    Descripcion
+                                </th>
+                                <th>
+                                    Cantidad
+                                </th>
+                                <th>
+                                    Total producto
+                                </th>
+                                <th></th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-                <br />
-                <br />
-                <div class="position-relative">
-                    <div class="position-absolute bottom-0 end-0">
-                        <p class="fw-bold">Subtotal: <span class="fs-4">$@Model.Sum(p => p.producto.Precio * p.cantidadProducto)</span> <span>+ 21% IVA</span></p>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.producto.Nombre</td>
+                                    <td>@item.cantidadProducto</td>
+                                    <td>$ @(item.producto.Precio * item.cantidadProducto)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <div class="position-relative">
+                        <div class="position-absolute bottom-0 end-0">
+                            <p class="fw-bold">Subtotal: <span class="fs-4">$@Model.Sum(p => p.producto.Precio * p.cantidadProducto)</span> <span>+ 21% IVA</span></p>
+                        </div>
                     </div>
+
+                </div>
+
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <input type="submit" value="Pagar" class="btn btn-success" />
                 </div>
 
             </div>
-
-            <div class="d-grid gap-2 col-6 mx-auto">
-                @*<button class="btn btn-primary" type="button">Pagar</button>*@
-                <input type="submit" value="Pagar" class="btn btn-primary" />
-            </div>
-
         </div>
-        </form>
-    </div>
 
-</div>
+    </div>
+</form>
 
 
 

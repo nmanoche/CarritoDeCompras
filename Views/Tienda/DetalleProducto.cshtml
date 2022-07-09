@@ -43,7 +43,7 @@
                         <!-- Boton para agregar al carrito desde la vista de detalles-->
                         <div class="text-center">
                             <a class="btn btn-outline-dark mt-auto" asp-controller="Carrito" asp-action="AgregarAlCarrito" asp-route-idProducto="@Model.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">
-                                Agregar al carrito
+                                <i class="fa-solid fa-cart-arrow-down"></i> Agregar al carrito
                             </a>
                         </div>
 
@@ -51,7 +51,7 @@
                     }
                     <div>
                         <!-- Boton para volver a la tienda (Index)-->
-                        &nbsp;&nbsp;<a class="btn btn-outline-dark mt-auto" href="@Url.Action("Index", "Tienda")">Volver a la tienda</a>
+                        &nbsp;&nbsp;<a class="btn btn-outline-dark mt-auto" href="@Url.Action("Index", "Tienda")"><i class="fa-solid fa-circle-arrow-left"></i> Volver a la tienda</a>
 
                     </div>
                 </div>

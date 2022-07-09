@@ -53,7 +53,10 @@ namespace CarritoDeCompras.Controllers
             foreach (var item in listaProductosEnCarrito)
             {
                 var idProducto = item.IdProducto;
-                var producto = _context.Productos.Where(p => p.IdProducto == idProducto).FirstOrDefault();
+                var producto = _context.Productos.
+                                Where(p => p.IdProducto == idProducto).
+                                Include(p => p.Marca).
+                                FirstOrDefault();
                 var cantidad = item.Cantidad;
                 listaDeProductosMostrar.Add(new ProductoMostrable(producto, (int)cantidad));
             }
@@ -191,7 +194,7 @@ namespace CarritoDeCompras.Controllers
             var cart = await _context.Carritos.FirstOrDefaultAsync(id => id.IdUsuario == idUser && id.IdProducto == idProducto && id.Activo != 0);
 
             var producto = _context.Productos.FirstOrDefault(p => p.IdProducto == idProducto);
-            string descripcionProducto = producto.Descripcion;
+            string descripcionProducto = producto.Nombre;
 
             if (cart == null)
             {

@@ -39,6 +39,7 @@ namespace CarritoDeCompras.Controllers
 
             var producto = await _context.Productos
                 .Include(t => t.Categoria)
+                .Include(t => t.Marca)
                 .FirstOrDefaultAsync(m => m.IdProducto == id);
             if (producto == null)
             {
@@ -139,6 +140,7 @@ namespace CarritoDeCompras.Controllers
 
             var Producto = await _context.Productos
                 .Include(t => t.Categoria)
+                .Include(t => t.Marca)
                 .FirstOrDefaultAsync(m => m.IdProducto == id);
             if (Producto == null)
             {

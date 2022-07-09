@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using CarritoDeCompras.Models;
 
 namespace CarritoDeCompras.Areas.Identity.Data;
 
@@ -24,6 +25,8 @@ public class IdentityBaseDeDatos : IdentityDbContext<IdentityUsuario>
     }
 
     public DbSet<CarritoDeCompras.Areas.Identity.Data.IdentityUsuario> Users { get; set; }
+
+    public DbSet<CarritoDeCompras.Models.Usuario>? Usuario { get; set; }
 }
 
 internal class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<IdentityUsuario>

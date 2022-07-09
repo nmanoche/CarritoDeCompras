@@ -1,14 +1,14 @@
 ﻿@model CarritoDeCompras.Models.Producto
 
+
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Detalles del Producto</h1>
 
 <div>
-    <h4>Producto</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -24,16 +24,16 @@
             @Html.DisplayFor(model => model.Descripcion)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdMarca)
+            @Html.DisplayNameFor(model => model.Marca)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdMarca)
+            @Html.DisplayFor(model => model.Marca.Descripcion)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Categoria)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categoria.IdCategoria)
+            @Html.DisplayFor(model => model.Categoria.Descripcion)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Precio)
@@ -56,6 +56,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdProducto">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" type="button" class="btn btn-secondary"><i class="fa-solid fa-circle-arrow-left"></i> Volver</a>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.IdProducto"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
 </div>

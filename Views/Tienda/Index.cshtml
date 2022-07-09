@@ -55,7 +55,7 @@
                     <div class="card-body p-4">
                                 <div class="text-center">
                                     <!-- Product name-->
-                            <h5 class="fw-bolder">@Html.DisplayFor(modelItem => item.Descripcion)</h5>
+                            <h5 class="fw-bolder">@Html.DisplayFor(modelItem => item.Nombre)</h5>
                                     <!-- Product price-->
                             $ @Html.DisplayFor(modelItem => item.Precio)
                                 </div>
@@ -74,7 +74,7 @@
                                         Agregar al carrito
                                     </button>*@
 
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" asp-controller="Carrito" asp-action="AgregarAlCarrito" asp-route-idProducto="@item.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)">Agregar al carrito</a></div>
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" asp-controller="Carrito" asp-action="AgregarAlCarrito" asp-route-idProducto="@item.IdProducto" asp-route-idUser="@UserManager.GetUserId(User)"><i class="fa-solid fa-cart-arrow-down"></i> Agregar al carrito</a></div>
 
 
                                     @*<a class="btn btn-outline-dark mt-auto" href="@Url.Action("Carrito", "Tienda")">Agregar al Carrito</a>*@

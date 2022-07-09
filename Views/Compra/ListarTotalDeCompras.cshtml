@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CarritoDeCompras.Models.Compra>
+
+@{
+    ViewData["Title"] = "ListarTotalDeCompras";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Listado de Compras realizadas</h1>
+
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label>Fecha de la Compra</label>
+            </th>
+            <th>
+                <label>Nombre y Apellido</label>
+            </th>
+            <th>
+                <label>Total Pagado</label>
+            </th>
+            <th>
+                <label>Correo Electrónico</label>
+            </th>
+            <th>
+                <label>Dirección</label>
+            </th>
+            <th>
+                <label>Código Postal</label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCompra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreApellidoFacturar)
+            </td>
+            <td>
+                $ @Html.DisplayFor(modelItem => item.TotalPagar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailFacturar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DireccionFacturar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoPostalFacturar)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

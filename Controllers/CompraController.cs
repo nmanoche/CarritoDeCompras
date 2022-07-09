@@ -47,7 +47,7 @@ namespace CarritoDeCompras.Controllers
         public async Task<IActionResult> PagarCompra(string? NombreApellidoFacturar, string? EmailFacturar, string? DireccionFacturar, string? CodigoPostalFacturar)
         {
             var idUser = _userManager.GetUserId(User);
-            var fechaCompra = DateTime.Today.ToString();
+            var fechaCompra = DateTime.Now.ToString();
             var totalPagar = CalcularTotalPagar(idUser);
             var nombreApellido = NombreApellidoFacturar;
             var emailCompra = EmailFacturar;
@@ -89,6 +89,13 @@ namespace CarritoDeCompras.Controllers
                 _context.Update(item);
                 _context.SaveChanges();
             }
+        }
+
+        public async Task<IActionResult> ListarTotalDeCompras()
+        {
+            var listaTotalDeCompras = await _context.Compras.ToListAsync();
+
+            return View(listaTotalDeCompras);
         }
 
         // GET: CompraController/Details/5
