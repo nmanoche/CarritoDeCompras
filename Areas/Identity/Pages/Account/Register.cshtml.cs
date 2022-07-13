@@ -72,12 +72,12 @@ namespace CarritoDeCompras.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [StringLength(255, ErrorMessage = "El {0} debe contener al menos {2} y máximo {1} carácteres.", MinimumLength = 6)]
+            [StringLength(255, ErrorMessage = "El {0} debe contener al menos {2} y máximo {1} carácteres.", MinimumLength = 2)]
             [Display(Name ="Nombre")]
             public string Nombre { get; set; }
 
             [Required]
-            [StringLength(255, ErrorMessage = "El {0} debe contener al menos {2} y máximo {1} carácteres.", MinimumLength = 6)]
+            [StringLength(255, ErrorMessage = "El {0} debe contener al menos {2} y máximo {1} carácteres.", MinimumLength = 2)]
             [Display(Name = "Apellido")]
             public string Apellido { get; set; }
 
@@ -95,7 +95,7 @@ namespace CarritoDeCompras.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} y máximo {1} carácteres.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} y máximo {1} carácteres.", MinimumLength = 3)]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña")]
             public string Password { get; set; }

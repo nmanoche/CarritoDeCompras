@@ -10,13 +10,13 @@
 
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i><b>@UserManager.GetUserName(User)</b></a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i><b> @UserManager.GetUserName(User)</b></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a id="manage" class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fas fa-sign-out"></i>Configuración</a></li>
-                    <li><hr class="dropdown-divider" /></li>
+                    @*<li><a id="manage" class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fas fa-sign-out"></i>Configuración</a></li>
+                    <li><hr class="dropdown-divider" /></li>*@
                     <li>
                         <form id="logoutForm" class="dropdown-item" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Tienda", new { area = "" })">
-                            <button id="logout" class="nav-link btn btn-link text-dark" type="submit"><i class="fas fa-sign-out"></i>Cerrar Sesión</button>
+                            <button id="logout" class="nav-link btn btn-link text-dark" type="submit"><i class="fas fa-sign-out"></i> Cerrar Sesión</button>
                         </form>
                     </li>
                 </ul>

@@ -11,6 +11,7 @@ using CarritoDeCompras.Models;
 using Microsoft.AspNetCore.Authorization;
 using CarritoDeCompras.Areas.Identity.Data;
 using CarritoDeCompras.Areas.Identity.Pages;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarritoDeCompras.Controllers
 {
@@ -19,11 +20,13 @@ namespace CarritoDeCompras.Controllers
     {
         private readonly BaseDeDatos _context;
         private readonly IdentityBaseDeDatos _contextIdentity;
+        private readonly UserManager<IdentityUsuario> _userManager;
 
-        public UsuariosController(BaseDeDatos context, IdentityBaseDeDatos contextIdentity)
+        public UsuariosController(BaseDeDatos context, IdentityBaseDeDatos contextIdentity, UserManager<IdentityUsuario> userManager)
         {
             _context = context;
             _contextIdentity = contextIdentity;
+            _userManager = userManager;
         }
 
         [Authorize(Policy = "AdminRequerido")]
@@ -116,7 +119,6 @@ namespace CarritoDeCompras.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, IdentityUsuario usuario)
         {
-            
             if (ModelState.IsValid)
             {
                
@@ -130,6 +132,9 @@ namespace CarritoDeCompras.Controllers
                         usuarioEnDB.Nombre = usuario.Nombre;
                         usuarioEnDB.Apellido = usuario.Apellido;
                         usuarioEnDB.UserName = usuario.UserName;
+                        usuarioEnDB.NormalizedUserName = usuario.UserName.ToUpper();
+                        usuarioEnDB.NormalizedEmail = usuario.Email.ToUpper();
+                        usuarioEnDB.Email = usuario.Email;
                         _contextIdentity.Update(usuarioEnDB);
                         await _contextIdentity.SaveChangesAsync();
                         return RedirectToAction(nameof(IndexIdentity));
@@ -142,6 +147,8 @@ namespace CarritoDeCompras.Controllers
                             usuarioEnDB.Nombre = usuario.Nombre;
                             usuarioEnDB.Apellido = usuario.Apellido;
                             usuarioEnDB.UserName = usuario.UserName;
+                            usuarioEnDB.NormalizedUserName = usuario.UserName.ToUpper();
+                            usuarioEnDB.NormalizedEmail = usuario.Email.ToUpper();
                             _contextIdentity.Update(usuarioEnDB);
                             await _contextIdentity.SaveChangesAsync();
                             return RedirectToAction(nameof(IndexIdentity));
