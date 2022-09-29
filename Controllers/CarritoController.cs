@@ -1,10 +1,9 @@
 ﻿using CarritoDeCompras.Datos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CarritoDeCompras.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using CarritoDeCompras.Areas.Identity.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarritoDeCompras.Controllers
 {

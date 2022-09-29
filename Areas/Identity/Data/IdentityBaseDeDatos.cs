@@ -5,35 +5,37 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using CarritoDeCompras.Models;
 
-namespace CarritoDeCompras.Areas.Identity.Data;
-
-public class IdentityBaseDeDatos : IdentityDbContext<IdentityUsuario>
+namespace CarritoDeCompras.Areas.Identity.Data
 {
-    public IdentityBaseDeDatos(DbContextOptions<IdentityBaseDeDatos> options)
-        : base(options)
+    public class IdentityBaseDeDatos : IdentityDbContext<IdentityUsuario>
     {
+        public IdentityBaseDeDatos(DbContextOptions<IdentityBaseDeDatos> options)
+            : base(options)
+        {
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            // Customize the ASP.NET Identity model and override the defaults if needed.
+            // For example, you can rename the ASP.NET Identity table names and more.
+            // Add your customizations after calling base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
+        }
+
+        public DbSet<CarritoDeCompras.Areas.Identity.Data.IdentityUsuario> Users { get; set; }
+
+        public DbSet<CarritoDeCompras.Models.Usuario>? Usuario { get; set; }
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    internal class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<IdentityUsuario>
     {
-        base.OnModelCreating(builder);
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
-
-        builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
+        public void Configure(EntityTypeBuilder<IdentityUsuario> builder)
+        {
+            builder.Property(u => u.Nombre).HasMaxLength(255);
+            builder.Property(u => u.Apellido).HasMaxLength(255);
+        }
     }
 
-    public DbSet<CarritoDeCompras.Areas.Identity.Data.IdentityUsuario> Users { get; set; }
-
-    public DbSet<CarritoDeCompras.Models.Usuario>? Usuario { get; set; }
-}
-
-internal class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<IdentityUsuario>
-{
-    public void Configure(EntityTypeBuilder<IdentityUsuario> builder)
-    {
-        builder.Property(u => u.Nombre).HasMaxLength(255);
-        builder.Property(u => u.Apellido).HasMaxLength(255);
-    }
 }
